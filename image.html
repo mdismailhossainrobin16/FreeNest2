@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image to URL Converter – Free Online Image Hosting Tool</title>
+<meta name="description" content="Upload an image and instantly convert it to a public URL. Free image hosting tool supporting JPG, PNG, WEBP, and GIF formats.">
+<meta name="keywords" content="image to url, image uploader, free image hosting, imgbb uploader, convert image to link, upload image get url">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Image URL Converter">
+<meta name="theme-color" content="#2563eb">
+<link rel="canonical" href="https://example.com/">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Image to URL Converter – Free Online Image Hosting Tool">
+<meta property="og:description" content="Upload an image and instantly convert it to a public URL. Free image hosting tool supporting JPG, PNG, WEBP, and GIF formats.">
+<meta property="og:image" content="https://example.com/og-image.png">
+<meta property="og:url" content="https://example.com/">
+<meta property="og:type" content="website">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Image to URL Converter – Free Online Image Hosting Tool">
+<meta name="twitter:description" content="Upload an image and instantly convert it to a public URL. Free image hosting tool supporting JPG, PNG, WEBP, and GIF formats.">
+<meta name="twitter:image" content="https://example.com/og-image.png">
+
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Image to URL Converter",
+  "description": "Upload an image and instantly convert it to a public URL. Free image hosting tool supporting JPG, PNG, WEBP, and GIF formats.",
+  "applicationCategory": "MultimediaApplication",
+  "operatingSystem": "All",
+  "url": "https://example.com/"
+}
+</script>
+
+<style>
+  :root{
+    --blue-1:#2563eb;
+    --blue-2:#1d4ed8;
+    --blue-light:#eff6ff;
+    --text-dark:#111827;
+    --text-muted:#6b7280;
+    --border:#e5e7eb;
+    --bg:#ffffff;
+    --success:#16a34a;
+    --error:#dc2626;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:transparent;
+    color:var(--text-dark);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    position:relative;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+
+  /* PREMIUM ANIMATED BACKGROUND */
+  .bg-animation{
+    position:fixed;
+    inset:0;
+    z-index:-2;
+    overflow:hidden;
+    background:linear-gradient(135deg,#f4f7ff 0%, #ffffff 45%, #eef2ff 100%);
+  }
+  .bg-animation .bg-grid{
+    position:absolute;
+    inset:0;
+    background-image:
+      linear-gradient(rgba(37,99,235,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(37,99,235,0.05) 1px, transparent 1px);
+    background-size:42px 42px;
+    -webkit-mask-image:radial-gradient(circle at 50% 30%, #000 0%, transparent 75%);
+    mask-image:radial-gradient(circle at 50% 30%, #000 0%, transparent 75%);
+  }
+  .bg-blob{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(90px);
+    opacity:0.5;
+    will-change:transform;
+    animation-name:floatBlob;
+    animation-timing-function:ease-in-out;
+    animation-iteration-count:infinite;
+  }
+  .bg-blob.b1{
+    width:440px;height:440px;
+    background:radial-gradient(circle at 30% 30%, #93c5fd, #3b82f6 70%);
+    top:-140px; left:-120px;
+    animation-duration:22s;
+  }
+  .bg-blob.b2{
+    width:380px;height:380px;
+    background:radial-gradient(circle at 30% 30%, #c4b5fd, #818cf8 70%);
+    top:10%; right:-140px;
+    animation-duration:26s;
+    animation-delay:-6s;
+  }
+  .bg-blob.b3{
+    width:320px;height:320px;
+    background:radial-gradient(circle at 30% 30%, #bfdbfe, #60a5fa 70%);
+    bottom:-120px; left:12%;
+    animation-duration:24s;
+    animation-delay:-11s;
+  }
+  .bg-blob.b4{
+    width:280px;height:280px;
+    background:radial-gradient(circle at 30% 30%, #a5f3fc, #38bdf8 70%);
+    bottom:6%; right:10%;
+    animation-duration:28s;
+    animation-delay:-16s;
+  }
+  .bg-blob.b5{
+    width:220px;height:220px;
+    background:radial-gradient(circle at 30% 30%, #fbcfe8, #f472b6 70%);
+    top:45%; left:45%;
+    opacity:0.25;
+    animation-duration:30s;
+    animation-delay:-3s;
+  }
+  @keyframes floatBlob{
+    0%{ transform:translate(0,0) scale(1); }
+    33%{ transform:translate(40px,-35px) scale(1.12); }
+    66%{ transform:translate(-35px,25px) scale(0.92); }
+    100%{ transform:translate(0,0) scale(1); }
+  }
+  @media(max-width:640px){
+    .bg-blob{ filter:blur(60px); opacity:0.4; }
+    .bg-blob.b1,.bg-blob.b2,.bg-blob.b3,.bg-blob.b4,.bg-blob.b5{ width:220px; height:220px; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .bg-blob{ animation:none; }
+  }
+
+  /* HEADER */
+  header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 6%;
+    border-bottom:1px solid var(--border);
+    position:sticky;
+    top:0;
+    background:rgba(255,255,255,0.72);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    z-index:100;
+  }
+  .logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight:700;
+    font-size:1.2rem;
+  }
+  .logo-icon{
+    width:36px;height:36px;
+    border-radius:10px;
+    background:linear-gradient(135deg,var(--blue-1),var(--blue-2));
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;font-size:1.1rem;
+  }
+  .header-tag{
+    font-size:0.85rem;
+    color:var(--text-muted);
+    display:none;
+  }
+  @media(min-width:640px){ .header-tag{display:block;} }
+
+  /* HERO */
+  .hero{
+    text-align:center;
+    padding:64px 6% 40px;
+    background:linear-gradient(180deg, rgba(239,246,255,0.55) 0%, rgba(255,255,255,0.2) 100%);
+  }
+  .hero h1{
+    font-size:clamp(1.8rem,4vw,2.8rem);
+    font-weight:800;
+    margin-bottom:14px;
+    letter-spacing:-0.02em;
+  }
+  .hero p{
+    color:var(--text-muted);
+    max-width:560px;
+    margin:0 auto;
+    font-size:1.05rem;
+  }
+
+  /* MAIN CONTAINER */
+  main{
+    max-width:780px;
+    margin:0 auto;
+    padding:0 6% 80px;
+  }
+
+  /* UPLOAD BOX */
+  .upload-card{
+    margin-top:-10px;
+    background:rgba(255,255,255,0.75);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border:2px dashed #c7d2fe;
+    border-radius:var(--radius);
+    padding:40px 20px;
+    text-align:center;
+    transition:.2s ease;
+    cursor:pointer;
+    box-shadow:0 8px 30px rgba(37,99,235,0.08);
+  }
+  .upload-card.dragover{
+    border-color:var(--blue-1);
+    background:rgba(239,246,255,0.85);
+    transform:scale(1.01);
+  }
+  .upload-icon{
+    width:60px;height:60px;
+    margin:0 auto 16px;
+    border-radius:50%;
+    background:var(--blue-light);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.6rem;
+    color:var(--blue-1);
+  }
+  .upload-card h3{
+    font-size:1.1rem;
+    margin-bottom:6px;
+  }
+  .upload-card p{
+    color:var(--text-muted);
+    font-size:0.9rem;
+    margin-bottom:18px;
+  }
+  #fileInput{display:none;}
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:12px 26px;
+    border:none;
+    border-radius:10px;
+    background:linear-gradient(135deg,var(--blue-1),var(--blue-2));
+    color:#fff;
+    font-weight:600;
+    font-size:0.95rem;
+    cursor:pointer;
+    transition:transform .15s ease, box-shadow .15s ease;
+    box-shadow:0 4px 14px rgba(37,99,235,0.25);
+  }
+  .btn:hover{ transform:translateY(-1px); box-shadow:0 6px 18px rgba(37,99,235,0.35); }
+  .btn:active{ transform:translateY(0); }
+  .btn:disabled{
+    opacity:0.6;
+    cursor:not-allowed;
+    transform:none;
+  }
+  .btn-secondary{
+    background:#f3f4f6;
+    color:var(--text-dark);
+    box-shadow:none;
+    font-size:0.8rem;
+    padding:8px 14px;
+  }
+  .btn-secondary:hover{
+    background:#e5e7eb;
+    box-shadow:none;
+  }
+
+  /* PREVIEW BEFORE UPLOAD */
+  .preview-box{
+    display:none;
+    margin-top:24px;
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:16px;
+    align-items:center;
+    gap:16px;
+    background:rgba(255,255,255,0.75);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+  }
+  .preview-box.show{ display:flex; flex-wrap:wrap; }
+  .preview-thumb{
+    width:90px;height:90px;
+    border-radius:10px;
+    overflow:hidden;
+    background:#f3f4f6;
+    flex-shrink:0;
+  }
+  .preview-thumb img{ width:100%;height:100%;object-fit:cover; }
+  .preview-info{ flex:1; min-width:160px; }
+  .preview-info .fname{ font-weight:600; font-size:0.9rem; word-break:break-all; }
+  .preview-info .fsize{ font-size:0.8rem; color:var(--text-muted); margin-top:2px; }
+  .preview-actions{ display:flex; gap:10px; margin-top:10px; flex-wrap:wrap; }
+
+  /* PROGRESS BAR */
+  .progress-wrap{
+    display:none;
+    margin-top:16px;
+  }
+  .progress-wrap.show{ display:block; }
+  .progress-track{
+    width:100%;
+    height:8px;
+    background:#e5e7eb;
+    border-radius:99px;
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,var(--blue-1),var(--blue-2));
+    border-radius:99px;
+    transition:width .15s ease;
+  }
+  .progress-label{
+    font-size:0.8rem;
+    color:var(--text-muted);
+    margin-top:6px;
+    text-align:right;
+  }
+
+  /* ERROR MESSAGE */
+  .error-msg{
+    display:none;
+    margin-top:16px;
+    background:#fef2f2;
+    border:1px solid #fecaca;
+    color:var(--error);
+    padding:12px 16px;
+    border-radius:10px;
+    font-size:0.9rem;
+  }
+  .error-msg.show{ display:block; }
+
+  /* RESULT SECTION */
+  .result-section{
+    display:none;
+    margin-top:32px;
+    animation:fadeIn .3s ease;
+  }
+  .result-section.show{ display:block; }
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+
+  .result-card{
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:24px;
+    background:rgba(255,255,255,0.8);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    box-shadow:0 8px 30px rgba(37,99,235,0.08);
+  }
+  .result-preview{
+    text-align:center;
+    margin-bottom:20px;
+  }
+  .result-preview img{
+    max-height:260px;
+    margin:0 auto;
+    border-radius:10px;
+    border:1px solid var(--border);
+  }
+
+  .field-group{ margin-bottom:16px; }
+  .field-label{
+    font-size:0.8rem;
+    font-weight:600;
+    color:var(--text-muted);
+    margin-bottom:6px;
+    text-transform:uppercase;
+    letter-spacing:.03em;
+  }
+  .field-row{
+    display:flex;
+    gap:8px;
+  }
+  .field-row input, .field-row textarea{
+    flex:1;
+    padding:10px 12px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    font-size:0.85rem;
+    background:#f9fafb;
+    color:var(--text-dark);
+    font-family:inherit;
+    resize:none;
+  }
+  .field-row textarea{ min-height:60px; }
+
+  .toast{
+    position:fixed;
+    bottom:24px;
+    left:50%;
+    transform:translateX(-50%) translateY(20px);
+    background:var(--text-dark);
+    color:#fff;
+    padding:12px 22px;
+    border-radius:10px;
+    font-size:0.9rem;
+    opacity:0;
+    pointer-events:none;
+    transition:.25s ease;
+    z-index:999;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+  }
+  .toast.success{ background:var(--success); }
+  .toast.error{ background:var(--error); }
+
+  /* FEATURES SECTION */
+  .features{
+    max-width:1000px;
+    margin:0 auto;
+    padding:20px 6% 80px;
+  }
+  .features h2{
+    text-align:center;
+    font-size:1.6rem;
+    margin-bottom:34px;
+  }
+  .feature-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+  }
+  .feature-item{
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:20px;
+    text-align:center;
+    background:rgba(255,255,255,0.65);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .feature-item:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 24px rgba(37,99,235,0.1);
+  }
+  .feature-item .fi-icon{
+    width:44px;height:44px;
+    border-radius:10px;
+    background:var(--blue-light);
+    color:var(--blue-1);
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 12px;
+    font-size:1.2rem;
+  }
+  .feature-item h4{ font-size:0.95rem; margin-bottom:6px; }
+  .feature-item p{ font-size:0.82rem; color:var(--text-muted); }
+
+  footer{
+    text-align:center;
+    padding:24px 6%;
+    color:var(--text-muted);
+    font-size:0.85rem;
+    border-top:1px solid var(--border);
+  }
+
+  @media(max-width:480px){
+    .hero{ padding:48px 6% 30px; }
+    .upload-card{ padding:28px 14px; }
+    .result-card{ padding:16px; }
+    .field-row{ flex-direction:column; }
+    .field-row .btn-secondary{ width:100%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Premium Live Animated Background -->
+<div class="bg-animation">
+  <div class="bg-grid"></div>
+  <div class="bg-blob b1"></div>
+  <div class="bg-blob b2"></div>
+  <div class="bg-blob b3"></div>
+  <div class="bg-blob b4"></div>
+  <div class="bg-blob b5"></div>
+</div>
+
+<header>
+  <div class="logo">
+    <!-- Default icon shown when no logo URL is set below in the script (LOGO_URL) -->
+    <div class="logo-icon" id="logoIcon">📷</div>
+    <!-- Custom logo image (hidden until LOGO_URL is set in the script section) -->
+    <img id="logoImg" src="" alt="Website Logo" style="display:none;width:36px;height:36px;border-radius:10px;object-fit:cover;">
+    <span>PixLink</span>
+  </div>
+  <div class="header-tag">Free Image Hosting Tool</div>
+</header>
+
+<section class="hero">
+  <h1>Free Image to URL Converter</h1>
+  <p>Upload any image and get an instant, shareable public URL. No sign-up, no watermark — just fast, free image hosting for JPG, PNG, WEBP, and GIF files.</p>
+</section>
+
+<main>
+  <div class="upload-card" id="uploadCard">
+    <div class="upload-icon">⬆</div>
+    <h3>Drag & drop your image here</h3>
+    <p>or click below to browse — JPG, PNG, WEBP, GIF (max 32MB)</p>
+    <button class="btn" id="browseBtn" type="button">Choose Image</button>
+    <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp,image/gif">
+  </div>
+
+  <div class="preview-box" id="previewBox">
+    <div class="preview-thumb"><img id="previewImg" src="" alt="Selected image preview" loading="lazy"></div>
+    <div class="preview-info">
+      <div class="fname" id="fileName"></div>
+      <div class="fsize" id="fileSize"></div>
+      <div class="preview-actions">
+        <button class="btn" id="uploadBtn" type="button">Upload Image</button>
+        <button class="btn btn-secondary" id="removeBtn" type="button">Remove</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-label" id="progressLabel">Uploading… 0%</div>
+  </div>
+
+  <div class="error-msg" id="errorMsg"></div>
+
+  <div class="result-section" id="resultSection">
+    <div class="result-card">
+      <div class="result-preview">
+        <img id="resultImg" src="" alt="Uploaded image result" loading="lazy">
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Direct Image URL</div>
+        <div class="field-row">
+          <input type="text" id="directUrl" readonly>
+          <button class="btn btn-secondary copy-btn" data-target="directUrl" type="button">Copy</button>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Viewer Link</div>
+        <div class="field-row">
+          <input type="text" id="viewerUrl" readonly>
+          <button class="btn btn-secondary copy-btn" data-target="viewerUrl" type="button">Copy</button>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">HTML Embed Code</div>
+        <div class="field-row">
+          <textarea id="htmlEmbed" readonly></textarea>
+          <button class="btn btn-secondary copy-btn" data-target="htmlEmbed" type="button">Copy</button>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">BBCode</div>
+        <div class="field-row">
+          <textarea id="bbcode" readonly></textarea>
+          <button class="btn btn-secondary copy-btn" data-target="bbcode" type="button">Copy</button>
+        </div>
+      </div>
+
+      <button class="btn btn-secondary" id="newUploadBtn" type="button">Upload Another Image</button>
+    </div>
+  </div>
+</main>
+
+<section class="features">
+  <h2>Why Use PixLink</h2>
+  <div class="feature-grid">
+    <div class="feature-item">
+      <div class="fi-icon">⚡</div>
+      <h4>Instant Upload</h4>
+      <p>Get your public image URL in seconds, no waiting.</p>
+    </div>
+    <div class="feature-item">
+      <div class="fi-icon">🔒</div>
+      <h4>Free & Secure</h4>
+      <p>No account required. Your images upload directly and safely.</p>
+    </div>
+    <div class="feature-item">
+      <div class="fi-icon">🖱️</div>
+      <h4>Drag & Drop</h4>
+      <p>Simple drag-and-drop interface with live preview.</p>
+    </div>
+    <div class="feature-item">
+      <div class="fi-icon">📋</div>
+      <h4>Multiple Formats</h4>
+      <p>Copy direct links, embed code, or BBCode instantly.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  &copy; 2026 PixLink — Free Image to URL Converter Tool
+ Developer ROBIN々BHAI 😎
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  const API_KEY = "1f9c7159e7af22d2407304b07eaa2536";
+  const UPLOAD_URL = "https://api.imgbb.com/1/upload";
+  const MAX_SIZE_MB = 32;
+  const ALLOWED_TYPES = ["image/jpeg","image/png","image/webp","image/gif"];
+
+  // 👉 LOGO SETTING: Paste your own logo image URL below between the quotes
+  // Example: const LOGO_URL = "https://i.ibb.co/yourimage/logo.png";
+  // Leave it as an empty string "" to keep the default 📷 icon.
+  const LOGO_URL = "https://i.ibb.co/xVYRxqZ/1000027298.png";
+
+  const logoIcon = document.getElementById("logoIcon");
+  const logoImg = document.getElementById("logoImg");
+  if(LOGO_URL && LOGO_URL.trim() !== ""){
+    logoImg.src = LOGO_URL.trim();
+    logoImg.style.display = "block";
+    logoIcon.style.display = "none";
+  }
+
+  const uploadCard = document.getElementById("uploadCard");
+  const fileInput = document.getElementById("fileInput");
+  const browseBtn = document.getElementById("browseBtn");
+  const previewBox = document.getElementById("previewBox");
+  const previewImg = document.getElementById("previewImg");
+  const fileNameEl = document.getElementById("fileName");
+  const fileSizeEl = document.getElementById("fileSize");
+  const uploadBtn = document.getElementById("uploadBtn");
+  const removeBtn = document.getElementById("removeBtn");
+  const progressWrap = document.getElementById("progressWrap");
+  const progressFill = document.getElementById("progressFill");
+  const progressLabel = document.getElementById("progressLabel");
+  const errorMsg = document.getElementById("errorMsg");
+  const resultSection = document.getElementById("resultSection");
+  const resultImg = document.getElementById("resultImg");
+  const directUrl = document.getElementById("directUrl");
+  const viewerUrl = document.getElementById("viewerUrl");
+  const htmlEmbed = document.getElementById("htmlEmbed");
+  const bbcode = document.getElementById("bbcode");
+  const newUploadBtn = document.getElementById("newUploadBtn");
+  const toast = document.getElementById("toast");
+
+  let selectedFile = null;
+
+  function showToast(message, type){
+    toast.textContent = message;
+    toast.className = "toast show" + (type ? " " + type : "");
+    setTimeout(()=>{ toast.className = "toast"; }, 2800);
+  }
+
+  function showError(message){
+    errorMsg.textContent = message;
+    errorMsg.classList.add("show");
+  }
+  function clearError(){
+    errorMsg.textContent = "";
+    errorMsg.classList.remove("show");
+  }
+
+  function formatBytes(bytes){
+    if(bytes < 1024) return bytes + " B";
+    if(bytes < 1024*1024) return (bytes/1024).toFixed(1) + " KB";
+    return (bytes/(1024*1024)).toFixed(2) + " MB";
+  }
+
+  function resetAll(){
+    selectedFile = null;
+    fileInput.value = "";
+    previewBox.classList.remove("show");
+    progressWrap.classList.remove("show");
+    progressFill.style.width = "0%";
+    progressLabel.textContent = "Uploading… 0%";
+    resultSection.classList.remove("show");
+    clearError();
+    uploadCard.style.display = "block";
+  }
+
+  function handleFile(file){
+    clearError();
+    if(!file) return;
+
+    if(!ALLOWED_TYPES.includes(file.type)){
+      showError("Unsupported file type. Please upload JPG, PNG, WEBP, or GIF.");
+      return;
+    }
+    const sizeMB = file.size / (1024*1024);
+    if(sizeMB > MAX_SIZE_MB){
+      showError("File is too large. Maximum allowed size is " + MAX_SIZE_MB + "MB.");
+      return;
+    }
+
+    selectedFile = file;
+    const reader = new FileReader();
+    reader.onload = function(e){
+      previewImg.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+
+    fileNameEl.textContent = file.name;
+    fileSizeEl.textContent = formatBytes(file.size);
+    previewBox.classList.add("show");
+    resultSection.classList.remove("show");
+  }
+
+  browseBtn.addEventListener("click", () => fileInput.click());
+  uploadCard.addEventListener("click", (e) => {
+    if(e.target === uploadCard || uploadCard.contains(e.target)){
+      if(e.target.id !== "browseBtn") fileInput.click();
+    }
+  });
+
+  fileInput.addEventListener("change", (e) => {
+    if(e.target.files && e.target.files[0]) handleFile(e.target.files[0]);
+  });
+
+  ["dragenter","dragover"].forEach(evt => {
+    uploadCard.addEventListener(evt, (e) => {
+      e.preventDefault(); e.stopPropagation();
+      uploadCard.classList.add("dragover");
+    });
+  });
+  ["dragleave","drop"].forEach(evt => {
+    uploadCard.addEventListener(evt, (e) => {
+      e.preventDefault(); e.stopPropagation();
+      uploadCard.classList.remove("dragover");
+    });
+  });
+  uploadCard.addEventListener("drop", (e) => {
+    const dt = e.dataTransfer;
+    if(dt && dt.files && dt.files[0]) handleFile(dt.files[0]);
+  });
+
+  removeBtn.addEventListener("click", () => {
+    selectedFile = null;
+    fileInput.value = "";
+    previewBox.classList.remove("show");
+    clearError();
+  });
+
+  uploadBtn.addEventListener("click", () => {
+    if(!selectedFile){
+      showError("Please select an image first.");
+      return;
+    }
+    uploadImage(selectedFile);
+  });
+
+  newUploadBtn.addEventListener("click", resetAll);
+
+  function uploadImage(file){
+    clearError();
+    uploadBtn.disabled = true;
+    progressWrap.classList.add("show");
+    progressFill.style.width = "0%";
+    progressLabel.textContent = "Uploading… 0%";
+
+    const formData = new FormData();
+    formData.append("key", API_KEY);
+    formData.append("image", file);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", UPLOAD_URL, true);
+
+    xhr.upload.onprogress = function(e){
+      if(e.lengthComputable){
+        const percent = Math.round((e.loaded / e.total) * 100);
+        progressFill.style.width = percent + "%";
+        progressLabel.textContent = "Uploading… " + percent + "%";
+      }
+    };
+
+    xhr.onload = function(){
+      uploadBtn.disabled = false;
+      let response;
+      try{
+        response = JSON.parse(xhr.responseText);
+      }catch(err){
+        showError("Something went wrong while reading the server response.");
+        progressWrap.classList.remove("show");
+        return;
+      }
+
+      if(xhr.status >= 200 && xhr.status < 300 && response.success){
+        progressLabel.textContent = "Upload complete!";
+        setTimeout(()=>{ progressWrap.classList.remove("show"); }, 500);
+        displayResult(response.data);
+        showToast("Image uploaded successfully!", "success");
+      }else{
+        const errText = (response.error && response.error.message) ? response.error.message : "Upload failed. Please try again.";
+        showError(errText);
+        showToast("Upload failed", "error");
+        progressWrap.classList.remove("show");
+      }
+    };
+
+    xhr.onerror = function(){
+      uploadBtn.disabled = false;
+      progressWrap.classList.remove("show");
+      showError("Network error. Please check your connection and try again.");
+      showToast("Upload failed", "error");
+    };
+
+    xhr.send(formData);
+  }
+
+  function displayResult(data){
+    uploadCard.style.display = "none";
+    previewBox.classList.remove("show");
+
+    const direct = (data.image && data.image.url) ? data.image.url : data.url;
+    const viewer = data.url_viewer || direct;
+    const displayImg = (data.display_url) ? data.display_url : direct;
+
+    resultImg.src = displayImg;
+    directUrl.value = direct;
+    viewerUrl.value = viewer;
+    htmlEmbed.value = '<a href="' + viewer + '" target="_blank"><img src="' + direct + '" alt="Uploaded image"></a>';
+    bbcode.value = '[url=' + viewer + '][img]' + direct + '[/img][/url]';
+
+    resultSection.classList.add("show");
+    resultSection.scrollIntoView({ behavior:"smooth", block:"start" });
+  }
+
+  document.querySelectorAll(".copy-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const targetId = btn.getAttribute("data-target");
+      const targetEl = document.getElementById(targetId);
+      targetEl.select();
+      targetEl.setSelectionRange(0, 99999);
+
+      navigator.clipboard.writeText(targetEl.value).then(() => {
+        showToast("Copied to clipboard!", "success");
+      }).catch(() => {
+        try{
+          document.execCommand("copy");
+          showToast("Copied to clipboard!", "success");
+        }catch(e){
+          showToast("Could not copy. Please copy manually.", "error");
+        }
+      });
+    });
+  });
+
+})();
+</script>
+
+</body>
+</html>
